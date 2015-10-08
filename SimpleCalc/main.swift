@@ -7,8 +7,8 @@
 //
 
 import Foundation
+import Darwin
 
-println("Enter an expression separated by returns:")
 
 func input() -> String {
     let keyboard = NSFileHandle.fileHandleWithStandardInput()
@@ -17,10 +17,11 @@ func input() -> String {
     return result.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
 }
 
+//Converts string into Doubles
 func convert(incoming:String) -> Double {
     return (incoming as NSString).doubleValue
 }
-
+// Calculates the averages of a list of numbers
 func avg(nums: [Double]) -> Double {
     var sum = 0.0
     for num in nums {
@@ -28,7 +29,7 @@ func avg(nums: [Double]) -> Double {
     }
     return Double(sum) / Double(nums.count)
 }
-
+//Caculates the factorial
 func fact(n: Double) -> Double {
     if n == 0 {
         return 1
@@ -37,7 +38,7 @@ func fact(n: Double) -> Double {
     }
 }
 
-
+//fucntion that calculates the basic operations (add, sub, mul, div, mod)
 func basicOperation(firstNumber: Double, operation: String, secondNumber: Double) -> Double {
     switch operation {
         case "+":
@@ -51,17 +52,25 @@ func basicOperation(firstNumber: Double, operation: String, secondNumber: Double
         case "%":
             return firstNumber % secondNumber
         default:
-            return 0
+            return DBL_MAX //TODO
     }
 }
 
-func logic() {
+//All the logic is in the main function. 
+
+func main() {
+    println("Enter an expression separated by returns:")
+
+    //taking the string of numbers and splitting in into an array.
     let enteredText = split(input()) {$0 == " " }
     
+    //Populates listOfNumbers with double values from the array of String in enteredText.
     var listOfNumbers: [Double] = []
     for value in enteredText {
         listOfNumbers.append(convert(value))
     }
+    
+    //Handles when there are multiple numbers in a row to calculate avg and count.
     let operation = input()
     if enteredText.count > 1 {
         if operation == "avg" {
@@ -71,24 +80,34 @@ func logic() {
         } else {
             print("Number entered could not be processed.")
         }
-    } else {
+    } else { //Case: when it is one number per line and it will calculate the factorial and basic operations.
         let firstNumber = convert(enteredText[0])
         
         if operation == "fact" {
             if firstNumber < 0 {
-                print("-\(fact(abs(firstNumber)))")
+                print("Cannot calculate a factorial of a negative number.")
             } else {
-                print("results: \(abs(fact(firstNumber)))")
+                print("results: \(fact(firstNumber))")
             }
         }
         
         let secondNumber: Double = convert(input())
         
-        print("result: \(basicOperation(firstNumber, operation, secondNumber))")
+    
+    let output = basicOperation(firstNumber, operation, secondNumber)
+        if output != DBL_MAX {
+            print("result: \(basicOperation(firstNumber, operation, secondNumber))")
+        } else  {
+            print("invalid operator.")
+        }
 
     }
 }
-logic()
+main()
+
+
+
+
 
 
 
