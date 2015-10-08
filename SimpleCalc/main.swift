@@ -52,7 +52,7 @@ func basicOperation(firstNumber: Double, operation: String, secondNumber: Double
         case "%":
             return firstNumber % secondNumber
         default:
-            return DBL_MAX //TODO
+            return DBL_MAX //Number that you would never reach.
     }
 }
 
@@ -95,6 +95,7 @@ func main() {
         
     
     let output = basicOperation(firstNumber, operation, secondNumber)
+        //This checks for an invlaid operator. Returns DBL_MAX if there is an error.
         if output != DBL_MAX {
             print("result: \(basicOperation(firstNumber, operation, secondNumber))")
         } else  {
